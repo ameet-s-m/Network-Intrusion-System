@@ -1,16 +1,3 @@
-let audioUnlocked = false;
-
-document.addEventListener("click", () => {
-    if (!audioUnlocked) {
-        const sound = document.getElementById("alertSound");
-        sound.play().then(() => {
-            sound.pause();
-            sound.currentTime = 0;
-            audioUnlocked = true;
-            console.log("🔊 Audio unlocked");
-        }).catch(() => {});
-    }
-});
 let simulationInterval = null;
 
 const ctx = document.getElementById('lineChart').getContext('2d');
@@ -30,15 +17,10 @@ const chart = new Chart(ctx, {
 });
 
 async function predict() {
-    document.body.style.animation = "shake 0.3s";
-setTimeout(() => {
-    document.body.style.animation = "";
-}, 300);
 
     const resultBox = document.getElementById("resultBox");
     const confidenceBox = document.getElementById("confidenceBox");
     const banner = document.getElementById("alertBanner");
-    const sound = document.getElementById("alertSound");
 
     let data = {
         duration: parseFloat(duration.value) || 0,
@@ -56,7 +38,13 @@ setTimeout(() => {
 
     let result = await res.json();
 
-    resultBox.innerHTML = result.result;
+    if (result.result.includes("Attack")) {
+    resultBox.style.color = "red";
+} else {
+    resultBox.style.color = "lightgreen";
+}
+
+resultBox.innerHTML = result.result;
     confidenceBox.innerHTML = "Confidence: " + result.confidence + "%";
 
     let val = result.result.includes("Attack") ? 1 : 0;
@@ -67,8 +55,6 @@ setTimeout(() => {
 
     if (val === 1) {
         banner.classList.remove("hidden");
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
     } else {
         banner.classList.add("hidden");
     }

@@ -17,7 +17,6 @@ body {
     align-items: center;
 }
 
-/* ALERT */
 .alert {
     background: red;
     text-align: center;
@@ -80,11 +79,4 @@ button {
 .chart-card {
     max-width: 600px;
     margin: auto;
-}
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
 }
